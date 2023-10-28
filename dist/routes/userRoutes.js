@@ -1,0 +1,22 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const userControllers_1 = require("../controllers/userControllers");
+const ProtectRutes_1 = __importDefault(require("../middlewares/ProtectRutes"));
+const router = express_1.default.Router();
+router.route("/create").get(userControllers_1.createForm).post(userControllers_1.createUser);
+router.route("/login").post(userControllers_1.login);
+router.route("/confirm/:token").get(userControllers_1.confirmAccount);
+router.route("/testingpug").get(userControllers_1.testingpug);
+router.route("/reset_password").get(userControllers_1.formReset).post(userControllers_1.resetPassword);
+router.route("/reset_password/:token").get(userControllers_1.verifyPassword).post(userControllers_1.newPassword);
+router.route("/getUser").get(ProtectRutes_1.default, userControllers_1.getUser);
+router.route("/editUser").put(ProtectRutes_1.default, userControllers_1.editUser);
+router.route("/deleteUser").delete(ProtectRutes_1.default, userControllers_1.deleteUser);
+router.get("/pugtest1", userControllers_1.pugTest1);
+router.get("/pugtest2", userControllers_1.pugTest2);
+router.get("/pugtest3", userControllers_1.pugTest3);
+exports.default = router;
