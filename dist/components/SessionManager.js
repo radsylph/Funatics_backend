@@ -22,6 +22,7 @@ class SessionManager {
     constructor() { }
     createUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            const { name, lastname, username, email, password, repeat_password } = req.body;
             yield (0, express_validator_1.check)("name").notEmpty().withMessage("Name is required").run(req);
             yield (0, express_validator_1.check)("lastname")
                 .notEmpty()
@@ -43,6 +44,14 @@ class SessionManager {
                 .isLength({ min: 6 })
                 .withMessage("Password must be at least 6 characters long")
                 .run(req);
+            yield (0, express_validator_1.check)("repeat_password")
+                .notEmpty()
+                .withMessage("Password is required")
+                .isLength({ min: 6 })
+                .withMessage("Password must be at least 6 characters long")
+                .equals(password)
+                .withMessage("the passwords doesn't match")
+                .run(req);
             let result = (0, express_validator_1.validationResult)(req);
             if (!result.isEmpty()) {
                 return res.status(400).json({
@@ -52,7 +61,6 @@ class SessionManager {
             }
             console.log(req.body);
             try {
-                const { name, lastname, username, email, password } = req.body;
                 console.log(req.body);
                 const ExisteUsuario = yield Usuario_js_1.default.findOne({ email: email }).exec();
                 const existeUsername = yield Usuario_js_1.default.findOne({

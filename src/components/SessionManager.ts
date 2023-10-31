@@ -42,6 +42,8 @@ class SessionManager {
     await check("repeat_password")
       .notEmpty()
       .withMessage("Password is required")
+      .isLength({ min: 6 })
+      .withMessage("Password must be at least 6 characters long")
       .equals(password)
       .withMessage("the passwords doesn't match")
       .run(req);
