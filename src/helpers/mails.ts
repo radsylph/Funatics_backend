@@ -3,16 +3,13 @@ import dotenv from "dotenv";
 
 dotenv.config({ path: ".env" });
 
-const emailRegistro = async (datos) => {
-  // var transport = nodemailer.createTransport({
-  //   host: process.env.EMAIL_HOST,
-  //   port: process.env.EMAIL_PORT,
-  //   auth: {
-  //     user: process.env.EMAIL_HOST_USER,
-  //     pass: process.env.EMAIL_HOST_PASSWORD,
-  //   },
-  // });
+interface Datos {
+  email: string;
+  nombre: string;
+  token: string | null;
+}
 
+const emailRegistro = async (datos: Datos) => {
   const transport = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -86,7 +83,7 @@ const emailRegistro = async (datos) => {
   }
 };
 
-const emailReset = async (datos) => {
+const emailReset = async (datos: Datos) => {
   const transport = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -159,5 +156,5 @@ const emailReset = async (datos) => {
     console.log(error);
   }
 };
-//http://localhost:3000/confirm/${token}
+
 export { emailRegistro, emailReset };

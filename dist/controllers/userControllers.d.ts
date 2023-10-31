@@ -1,0 +1,16 @@
+import { Request, Response } from "express";
+declare const createUser: (req: Request, res: Response) => void;
+declare const createForm: (req: Request, res: Response) => void;
+declare const confirmAccount: (req: Request, res: Response) => void;
+declare const login: (req: Request, res: Response) => void;
+declare const testingpug: (req: Request, res: Response) => void;
+declare const formReset: (req: Request, res: Response) => void;
+declare const resetPassword: (req: Request, res: Response) => void;
+declare const newPassword: (req: Request, res: Response) => void;
+declare const verifyPassword: (req: Request, res: Response) => void;
+declare const getUser: (req: Request, res: Response) => void;
+declare const editUser: (req: Request, res: Response) => void;
+declare const pugTest1: (req: Request, res: Response) => void;
+declare const pugTest2: (req: Request, res: Response) => void;
+declare const pugTest3: (req: Request, res: Response) => void;
+export { createUser, createForm, confirmAccount, testingpug, resetPassword, formReset, newPassword, verifyPassword, login, pugTest1, pugTest2, pugTest3, getUser, editUser, };

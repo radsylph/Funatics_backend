@@ -1,35 +1,37 @@
-import nodemailer from "nodemailer";
-import dotenv from "dotenv";
-
-dotenv.config({ path: ".env" });
-
-const emailRegistro = async (datos) => {
-  // var transport = nodemailer.createTransport({
-  //   host: process.env.EMAIL_HOST,
-  //   port: process.env.EMAIL_PORT,
-  //   auth: {
-  //     user: process.env.EMAIL_HOST_USER,
-  //     pass: process.env.EMAIL_HOST_PASSWORD,
-  //   },
-  // });
-
-  const transport = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.APP_USER,
-      pass: process.env.APP_PASSWORD,
-    },
-  });
-
-  console.log(datos);
-
-  const { email, nombre, token } = datos;
-  try {
-    await transport.sendMail({
-      from: process.env.APP_USER,
-      to: email,
-      subject: "Confirm your account",
-      html: `<!DOCTYPE html>
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.emailReset = exports.emailRegistro = void 0;
+const nodemailer_1 = __importDefault(require("nodemailer"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config({ path: ".env" });
+const emailRegistro = (datos) => __awaiter(void 0, void 0, void 0, function* () {
+    const transport = nodemailer_1.default.createTransport({
+        service: "gmail",
+        auth: {
+            user: process.env.APP_USER,
+            pass: process.env.APP_PASSWORD,
+        },
+    });
+    console.log(datos);
+    const { email, nombre, token } = datos;
+    try {
+        yield transport.sendMail({
+            from: process.env.APP_USER,
+            to: email,
+            subject: "Confirm your account",
+            html: `<!DOCTYPE html>
       <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com馃彚office">
       <head>
         <meta charset="UTF-8">
@@ -80,28 +82,28 @@ const emailRegistro = async (datos) => {
           </table>
         </body>
         </html>`,
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.emailRegistro = emailRegistro;
+const emailReset = (datos) => __awaiter(void 0, void 0, void 0, function* () {
+    const transport = nodemailer_1.default.createTransport({
+        service: "gmail",
+        auth: {
+            user: process.env.APP_USER,
+            pass: process.env.APP_PASSWORD,
+        },
     });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const emailReset = async (datos) => {
-  const transport = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.APP_USER,
-      pass: process.env.APP_PASSWORD,
-    },
-  });
-
-  const { email, nombre, token } = datos;
-  try {
-    await transport.sendMail({
-      from: "LuckyNotes@gmail.com",
-      to: email,
-      subject: "Reset your password",
-      html: `<!DOCTYPE html>
+    const { email, nombre, token } = datos;
+    try {
+        yield transport.sendMail({
+            from: "LuckyNotes@gmail.com",
+            to: email,
+            subject: "Reset your password",
+            html: `<!DOCTYPE html>
       <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
       <head>
         <meta charset="UTF-8">
@@ -154,10 +156,10 @@ const emailReset = async (datos) => {
       </body>
       </html>
        `,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-//http://localhost:3000/confirm/${token}
-export { emailRegistro, emailReset };
+        });
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.emailReset = emailReset;

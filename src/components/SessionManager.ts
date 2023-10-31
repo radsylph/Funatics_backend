@@ -1,12 +1,16 @@
 import { Request, Response } from "express";
-import Usuario from "../models/Usuario.ts";
-import bcrypt from "bcryptjs";
+import Usuario from "../models/Usuario.js";
+import bcrypt from "bcrypt";
 
 import { generateToken1, generateJWT } from "../helpers/generateToken.js";
-import { emailRegistro, emailReset } from "../helpers/mails.ts/index.js";
+import { emailRegistro, emailReset } from "../helpers/mails.js";
 import { check, validationResult } from "express-validator";
 import verifyPassword from "../helpers/passtest.js";
 import jwt from "jsonwebtoken";
+
+interface CustomRequest extends Request {
+  user?: any;
+}
 
 class SessionManager {
   constructor() {}
@@ -284,7 +288,7 @@ class SessionManager {
     });
   }
 
-  async loginVerify(req: Request, res: Response): Promise<void> {
+  async loginVerify(req: Request, res: Response): Promise<Response> {
     await check("email")
       .notEmpty()
       .withMessage("Email is required")
@@ -302,9 +306,13 @@ class SessionManager {
         error: result.array(),
       });
     }
+
+    return res.status(200).json({
+      message: "Loggin succesfull",
+    });
   }
 
-  async login(req, res) {
+  async login(req: Request, res: Response): Promise<Response> {
     const { user_info, password } = req.body;
     await check("user_info")
       .notEmpty()
@@ -382,13 +390,13 @@ class SessionManager {
     });
   }
 
-  closeSession(req, res) {
+  closeSession(req: Request, res: Response): Response {
     return res.status(200).json({
       message: "Sesion cerrada",
     });
   }
 
-  async getUser(req, res) {
+  async getUser(req: CustomRequest, res: Response): Promise<Response> {
     try {
       const user = await Usuario.findById(req.user.id).exec();
       console.log(user);
@@ -396,10 +404,24 @@ class SessionManager {
         message: "User found",
         user: user,
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "there was these errors",
+        error: [
+          {
+            type: "server",
+            value: "",
+            msg: "there was an error when getting the user",
+            path: "",
+            location: "",
+          },
+        ],
+      });
+    }
   }
 
-  async editUser(req, res) {
+  async editUser(req: CustomRequest, res: Response): Promise<Response> {
     await check("name").notEmpty().withMessage("Name is required").run(req);
     await check("lastname")
       .notEmpty()
@@ -422,6 +444,20 @@ class SessionManager {
         username: username,
       }).exec();
       const myusername = await Usuario.findById(req.user.id).exec();
+      if (myusername === null) {
+        return res.status(400).json({
+          message: "there was these errors",
+          error: [
+            {
+              type: "field",
+              value: username,
+              msg: "the username is null",
+              path: "username",
+              location: "body",
+            },
+          ],
+        });
+      }
       if (Username && Username.username !== myusername.username) {
         return res.status(400).json({
           message: "there was these errors",
@@ -437,6 +473,20 @@ class SessionManager {
         });
       }
       const user = await Usuario.findById(req.user.id).exec();
+      if (user === null) {
+        return res.status(400).json({
+          message: "there was these errors",
+          error: [
+            {
+              type: "field",
+              value: username,
+              msg: "the user is null",
+              path: "user",
+              location: "body",
+            },
+          ],
+        });
+      }
       user.name = name;
       user.lastname = lastname;
       user.username = username;

@@ -1,19 +1,34 @@
 import jwt from "jsonwebtoken";
+import { Request, Response, NextFunction } from "express";
 import Usuario from "../models/Usuario.js";
 
-const getUserInfo = async (req, res, next) => {
+interface CustomRequest extends Request {
+  user?: any;
+}
+
+const getUserInfo = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
-    return res.status(400).json({
+    return res.status(401).json({
       message: "Token is required",
-      status: 405,
+      status: 401,
     });
   }
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (!process.env.JWT_SECRET) {
+      throw new Error("JWT_SECRET is not defined");
+    }
+    const decoded: any = jwt.verify(token, process.env.JWT_SECRET);
     console.log(decoded);
+    if (!decoded || !decoded.id) {
+      throw new Error("Invalid token payload");
+    }
     const user = await Usuario.findById(decoded.id);
     console.log(user);
     if (user) {
