@@ -16,6 +16,8 @@ class SessionManager {
   constructor() {}
 
   async createUser(req: Request, res: Response): Promise<Response> {
+    const { name, lastname, username, email, password, repeat_password } =
+      req.body;
     await check("name").notEmpty().withMessage("Name is required").run(req);
     await check("lastname")
       .notEmpty()
@@ -37,6 +39,12 @@ class SessionManager {
       .isLength({ min: 6 })
       .withMessage("Password must be at least 6 characters long")
       .run(req);
+    await check("repeat_password")
+      .notEmpty()
+      .withMessage("Password is required")
+      .equals(password)
+      .withMessage("the passwords doesn't match")
+      .run(req);
 
     let result = validationResult(req);
     if (!result.isEmpty()) {
@@ -45,10 +53,8 @@ class SessionManager {
         errors: result.array(),
       });
     }
-
     console.log(req.body);
     try {
-      const { name, lastname, username, email, password } = req.body;
       console.log(req.body);
 
       const ExisteUsuario = await Usuario.findOne({ email: email }).exec();
