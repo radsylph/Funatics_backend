@@ -1,11 +1,7 @@
 import mongoose from "mongoose";
+import { LikeInterface } from "./main";
 
-interface like {
-  owner: string;
-  tweet: string;
-}
-
-const likeSchema = new mongoose.Schema<like>(
+const likeSchema = new mongoose.Schema<LikeInterface>(
   {
     owner: {
       type: String,

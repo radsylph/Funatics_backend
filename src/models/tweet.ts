@@ -1,16 +1,7 @@
 import mongoose from "mongoose";
+import { TweetInterface } from "./main";
 
-interface tweet {
-  title: string;
-  content: string;
-  owner: string;
-  likes: number;
-  image: string;
-  edited: boolean;
-  isComment: boolean;
-}
-
-const tweetSchema = new mongoose.Schema<tweet>(
+const tweetSchema = new mongoose.Schema<TweetInterface>(
   {
     title: {
       type: String,

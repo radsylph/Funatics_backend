@@ -1,11 +1,7 @@
 import mongoose from "mongoose";
+import { FollowInterface } from "./main";
 
-interface follow {
-  personToFollow: string;
-  personThatFollows: string;
-}
-
-const followSchema = new mongoose.Schema<follow>(
+const followSchema = new mongoose.Schema<FollowInterface>(
   {
     personToFollow: {
       type: String,

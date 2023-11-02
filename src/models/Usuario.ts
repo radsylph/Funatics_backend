@@ -1,19 +1,8 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import { UsuarioInterface } from "./main";
 
-interface Usuario {
-  name: string;
-  lastname: string;
-  username: string;
-  email: string;
-  password: string;
-  token: string | null;
-  confirmado: boolean;
-  timestamps: boolean;
-  verificarPassword: (password: string) => Promise<boolean>;
-}
-
-const usuarioSchema = new mongoose.Schema<Usuario>(
+const usuarioSchema = new mongoose.Schema<UsuarioInterface>(
   {
     name: {
       type: String,
