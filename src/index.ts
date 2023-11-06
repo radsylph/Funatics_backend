@@ -5,6 +5,7 @@ dotenv.config({ path: ".env" });
 
 import db from "./config/db";
 import userrouter from "./routes/userRoutes";
+import tweetrouter from "./routes/tweetRoutes";
 
 import cors from "cors";
 
@@ -19,6 +20,7 @@ app.use(cors());
 app.use(express.static("public"));
 
 app.use("/auth", userrouter);
+app.use("/funa", tweetrouter);
 
 app.set("view engine", "pug");
 app.set("views", "./views");
