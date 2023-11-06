@@ -55,23 +55,23 @@ const emailRegistro = (datos) => __awaiter(void 0, void 0, void 0, function* () 
         <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#E4EBEC;">
           <tr>
             <td align="center" style="padding:0;">
-              <table role="presentation" style="with:602px;border-collapse:collapse;border:1px solid #0CA58A;border-spacing:0;text-align:left;">
+              <table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #1e1e1e;border-spacing:0;text-align:left;">
                 <tr>
-                  <td align="center" style="padding:40px 0 30px 0;background: linear-gradient(25deg, #DFC592 0%, #0CA58A 100%);">
-                    <a href="#"> <img src="https://i.postimg.cc/9QVpjXs8/2.png" alt="" width="200" style="height:auto;display:block;" /></a>
+                  <td align="center" style="padding:40px 0 30px 0;background: linear-gradient(25deg, #f27a2b 0%, #e8da21 50% , #cc0018 100%);">
+                   <img src="https://i.postimg.cc/BvrBNzZg/funatics.png" alt="" width="200" style="height:auto;display:block; filter: drop-shadow(0 0 0.75rem #1e1e1e);" />
                   </td>
                 </tr>
                 <tr>
-                  <td style="padding:36px 30px 20px 30px; ">
+                  <td style="padding:36px 30px 20px 30px; background-color: #1e1e1e;">
                     <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
                       <tr>
-                        <td style="padding:0 0 0 0;color:#112E29;">
-                          <h1 align="center" style="font-size:24px;margin:0 0 20px 0;font-family: Arial, sans-serif;color:#0CA58A;  font-size: 30px;">Verify your account </h1>
-                          <h1 style="margin: 0px; line-height: 140%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: arial,helvetica,sans-serif; font-size: 16px; color:#0CA58A;">
-                            <div><strong>Use the following link to verify your account:<a href="${process.env.BACKEND_URL}/auth/confirm/${token}" style="font-size: 30px; margin:0 0 12px 0;font-size:16px;line-height:24px;font-family: Arial, sans-serif;color:#112E29;"> Verify your account</a>  </strong></div>
+                        <td style="padding:0 0 0 0;">
+                          <h1 align="center" style="font-size:24px;margin:0 0 20px 0;font-family: Arial, sans-serif;color:#e8da21;  font-size: 30px;text-shadow: 2px 2px 4px #000000; filter: drop-shadow(0 0 0.75rem crimson);">Verify your account </h1>
+                          <h1 style="margin: 0px; line-height: 140%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: arial,helvetica,sans-serif; font-size: 16px; color:#f27a2b;">
+                            <div><strong>Use the following link to verify your account:<a href="${process.env.BACKEND_URL}/auth/confirm/${token}" style="font-size: 30px; margin:0 0 12px 0;font-size:16px;line-height:24px;font-family: Arial, sans-serif;color:#e8da21; filter: drop-shadow(0 0 0.75rem);"> Verify your account</a>  </strong></div>
                           </h1>
                           <br>
-                          <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family: Arial, sans-serif;color:#112E29;">if you didnt create this account, pls dont pay attention to this message</p>
+                          <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family: Arial, sans-serif;color:#cc0018;">if you didnt create this account, pls dont pay attention to this message</p>
                         </td>
                       </tr>
                     
@@ -127,23 +127,23 @@ const emailReset = (datos) => __awaiter(void 0, void 0, void 0, function* () {
         <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#E4EBEC;">
           <tr>
             <td align="center" style="padding:0;">
-              <table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #0CA58A;border-spacing:0;text-align:left;">
+                <table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #1e1e1e;border-spacing:0;text-align:left;">
                 <tr>
-                  <td align="center" style="padding:40px 0 30px 0;background: linear-gradient(25deg, #DFC592 0%, #0CA58A 100%);">
-                    <a href="#"> <img src="https://i.postimg.cc/9QVpjXs8/2.png" alt="" width="200" style="height:auto;display:block;" /></a>
+                    <td align="center" style="padding:40px 0 30px 0;background: linear-gradient(25deg,  #cc0018 0%, #e8da21 50% , #f27a2b  100%);">
+                    <img src="https://i.postimg.cc/BvrBNzZg/funatics.png" alt="" width="200" style="height:auto;display:block; filter: drop-shadow(0 0 0.75rem #1e1e1e);" />
                   </td>
                 </tr>
                 <tr>
-                  <td style="padding:36px 30px 20px 30px;">
+                    <td style="padding:36px 30px 20px 30px; background-color: #1e1e1e;">
                     <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
                       <tr>
-                        <td style="padding:0 0 0 0;color:#112E29;">
-                          <h1 align="center" style="font-size:24px;margin:0 0 20px 0;font-family: Arial, sans-serif;color:#0CA58A;">Reset your password</h1>
-                          <h1 style="margin: 0px; line-height: 140%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: arial,helvetica,sans-serif; font-size: 16px; color:#0CA58A;">
-                            <div><strong>Use the following link to reset your password: <a href="${process.env.BACKEND_URL}/auth/reset_password/${token}" style="color:#112E29;">Reset your password</a></strong></div>
+                        <td style="padding:0 0 0 0;">
+                          <h1 align="center" style="font-size:24px;margin:0 0 20px 0;font-family: Arial, sans-serif;color:#e8da21;  font-size: 30px;text-shadow: 2px 2px 4px #000000;  ">Reset your password</h1>
+                          <h1 style="margin: 0px; line-height: 140%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: arial,helvetica,sans-serif; font-size: 16px; color:#f27a2b;">
+                            <div><strong>Use the following link to reset your password: <a href="${process.env.BACKEND_URL}/auth/reset_password/${token}"style="font-size: 30px; margin:0 0 12px 0;font-size:16px;line-height:24px;font-family: Arial, sans-serif;color:#e8da21; filter: drop-shadow(0 0 0.75rem);">Reset your password</a></strong></div>
                           </h1>
                           <br>
-                          <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family: Arial, sans-serif;color:#112E29;">If you didn't request a password reset, please ignore this message.</p>
+                          <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family: Arial, sans-serif;color:#cc0018;">If you didn't request a password reset, please ignore this message.</p>
                         </td>
                       </tr>
                     </table>
