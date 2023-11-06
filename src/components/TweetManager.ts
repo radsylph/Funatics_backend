@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { Usuario, Tweet, Like, Follow } from "../models/main";
-
 interface CustomRequest extends Request {
   user?: any;
 }
@@ -8,4 +7,5 @@ interface CustomRequest extends Request {
 class TweetManager {
   constructor() {}
 
+  async createTweet(req: CustomRequest, res: Response) {}
 }

@@ -11,8 +11,10 @@ const getUserInfo = async (
   res: Response,
   next: NextFunction
 ) => {
-  const authHeader = req.headers.authorization;
+  const authHeader = req.headers.authorization as string;
   const token = authHeader && authHeader.split(" ")[1];
+  console.log(token);
+  console.log(authHeader);
 
   if (!token) {
     return res.status(401).json({

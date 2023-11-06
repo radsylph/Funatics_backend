@@ -17,6 +17,8 @@ const Usuario_js_1 = __importDefault(require("../models/Usuario.js"));
 const getUserInfo = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(" ")[1];
+    console.log(token);
+    console.log(authHeader);
     if (!token) {
         return res.status(401).json({
             message: "Token is required",

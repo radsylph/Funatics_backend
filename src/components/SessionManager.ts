@@ -390,7 +390,6 @@ class SessionManager {
 
     const token = generateJWT(usuario.id);
     console.log(usuario.id);
-
     // storeToken(token);
     return res.status(200).json({
       message: "Usuario logeado",

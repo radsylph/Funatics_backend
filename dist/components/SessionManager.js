@@ -126,7 +126,7 @@ class SessionManager {
                 console.log(error);
                 return res.status(500).json({
                     message: "User not created",
-                    error: [
+                    errors: [
                         {
                             type: "server",
                             value: "",
@@ -300,7 +300,7 @@ class SessionManager {
             if (!result.isEmpty()) {
                 return res.status(400).json({
                     message: "there was these errors",
-                    error: result.array(),
+                    errors: result.array(),
                 });
             }
             return res.status(200).json({
@@ -332,7 +332,7 @@ class SessionManager {
             if (!usuario) {
                 return res.status(400).json({
                     message: "there was these errors",
-                    error: [
+                    errors: [
                         {
                             type: "field",
                             value: "",
@@ -346,7 +346,7 @@ class SessionManager {
             if (!usuario.confirmado) {
                 return res.status(400).json({
                     message: "there was these errors",
-                    error: [
+                    errors: [
                         {
                             type: "field",
                             value: user_info,
@@ -362,7 +362,7 @@ class SessionManager {
             if (!passwordMatch) {
                 return res.status(400).json({
                     message: "there was these errors",
-                    error: [
+                    errors: [
                         {
                             type: "field",
                             value: password,
@@ -401,7 +401,7 @@ class SessionManager {
                 console.log(error);
                 return res.status(500).json({
                     message: "there was these errors",
-                    error: [
+                    errors: [
                         {
                             type: "server",
                             value: "",
@@ -441,7 +441,7 @@ class SessionManager {
                 if (myusername === null) {
                     return res.status(400).json({
                         message: "there was these errors",
-                        error: [
+                        errors: [
                             {
                                 type: "field",
                                 value: username,
@@ -455,7 +455,7 @@ class SessionManager {
                 if (Username && Username.username !== myusername.username) {
                     return res.status(400).json({
                         message: "there was these errors",
-                        error: [
+                        errors: [
                             {
                                 type: "field",
                                 value: username,
@@ -470,7 +470,7 @@ class SessionManager {
                 if (user === null) {
                     return res.status(400).json({
                         message: "there was these errors",
-                        error: [
+                        errors: [
                             {
                                 type: "field",
                                 value: username,
@@ -494,7 +494,7 @@ class SessionManager {
                 console.log(error);
                 return res.status(500).json({
                     message: "there was these errors",
-                    error: [
+                    errors: [
                         {
                             type: "server",
                             value: "",
