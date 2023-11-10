@@ -7,7 +7,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const tweetSchema = new mongoose_1.default.Schema({
     title: {
         type: String,
-        required: true,
+        required: false,
     },
     content: {
         type: String,
@@ -18,6 +18,10 @@ const tweetSchema = new mongoose_1.default.Schema({
         required: true,
     },
     likes: {
+        type: Number,
+        default: 0,
+    },
+    comments: {
         type: Number,
         default: 0,
     },
@@ -32,6 +36,10 @@ const tweetSchema = new mongoose_1.default.Schema({
     isComment: {
         type: Boolean,
         default: false,
+    },
+    PostToComment: {
+        type: String,
+        default: null,
     },
 }, {
     timestamps: true,
