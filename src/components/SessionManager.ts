@@ -16,8 +16,15 @@ class SessionManager {
   constructor() {}
 
   async createUser(req: Request, res: Response): Promise<Response> {
-    const { name, lastname, username, email, password, repeat_password } =
-      req.body;
+    const {
+      name,
+      lastname,
+      username,
+      email,
+      password,
+      repeat_password,
+      profilePicture,
+    } = req.body;
     await check("name").notEmpty().withMessage("Name is required").run(req);
     await check("lastname")
       .notEmpty()
@@ -102,6 +109,7 @@ class SessionManager {
         password,
         token: generateToken1(),
         confirmado: false,
+        profilePicture,
       });
 
       await usuario.save();
