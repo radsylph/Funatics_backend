@@ -14,10 +14,10 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 app.use(express.json());
 app.use(cors());
 app.use(express.static("public"));
+app.use(cookieParser());
 
 app.use("/auth", userrouter);
 app.use("/funa", tweetrouter);
