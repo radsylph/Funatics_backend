@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import { UsuarioInterface } from "./main";
+import { Follow, UsuarioInterface } from "./main";
 
 const usuarioSchema = new mongoose.Schema<UsuarioInterface>(
   {
@@ -33,6 +33,14 @@ const usuarioSchema = new mongoose.Schema<UsuarioInterface>(
     password: {
       type: String,
       required: true,
+    },
+    profilePicture: {
+      type: String,
+      default: null,
+    },
+    followers: {
+      type: Number,
+      default: 0,
     },
     token: {
       type: String,
