@@ -5,7 +5,7 @@ const tweetSchema = new mongoose.Schema<TweetInterface>(
   {
     title: {
       type: String,
-      required: true,
+      required: false,
     },
     content: {
       type: String,
@@ -16,6 +16,10 @@ const tweetSchema = new mongoose.Schema<TweetInterface>(
       required: true,
     },
     likes: {
+      type: Number,
+      default: 0,
+    },
+    comments: {
       type: Number,
       default: 0,
     },
@@ -30,6 +34,10 @@ const tweetSchema = new mongoose.Schema<TweetInterface>(
     isComment: {
       type: Boolean,
       default: false,
+    },
+    PostToComment: {
+      type: String,
+      default: null,
     },
   },
   {
