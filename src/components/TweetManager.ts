@@ -174,7 +174,10 @@ class TweetManager {
 
   async getTweets(req: CustomRequest, res: Response) {
     try {
-      const tweets = await Tweet.find({ isComment: false }).populate("owner");
+      const tweets = await Tweet.find({ isComment: false }).populate({
+        path: "owner",
+        select: "name lastname username profilePicture",
+      });
       return res.status(200).json({
         message: "Tweets found",
         tweets,
@@ -482,6 +485,66 @@ class TweetManager {
             type: "server",
             value: "",
             msg: "there was an error when finding the comments",
+            errors: error,
+            path: "",
+            location: "",
+          },
+        ],
+      });
+    }
+  }
+
+  async getPhoneCache(req: CustomRequest, res: Response) {
+    await check("title")
+      .notEmpty()
+      .withMessage("the title is obligatory")
+      .isLength({ max: 150 })
+      .withMessage("the title must be less than 150 characters")
+      .run(req);
+    await check("content")
+      .optional()
+      .isLength({ max: 500 })
+      .withMessage("the content must be less than 500 characters")
+      .run(req);
+
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+      return res.status(400).json({
+        message: "you have these errors",
+        errors: result.array(),
+      });
+    }
+    const { title, content } = req.body;
+    const { owner } = req.user._id;
+
+    console.log(owner);
+    console.log(req.body);
+
+    try {
+      const newTweet = new Tweet({
+        title,
+        content,
+        owner: req.user._id,
+        image: "image.png",
+        edited: false,
+        isComment: false,
+        comments: 0,
+        likes: 0,
+        PostToComment: null,
+      });
+      await newTweet.save();
+      return res.status(200).json({
+        message: "Tweet created",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "Tweet not created",
+        errors: [
+          {
+            type: "server",
+            value: "",
+            msg: "there was an error when creating the user",
             errors: error,
             path: "",
             location: "",
