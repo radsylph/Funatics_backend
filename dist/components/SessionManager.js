@@ -22,7 +22,7 @@ class SessionManager {
     constructor() { }
     createUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { name, lastname, username, email, password, repeat_password } = req.body;
+            const { name, lastname, username, email, password, repeat_password, profilePicture, } = req.body;
             yield (0, express_validator_1.check)("name").notEmpty().withMessage("Name is required").run(req);
             yield (0, express_validator_1.check)("lastname")
                 .notEmpty()
@@ -102,6 +102,7 @@ class SessionManager {
                     password,
                     token: (0, generateToken_js_1.generateToken1)(),
                     confirmado: false,
+                    profilePicture,
                 });
                 yield usuario.save();
                 (0, mails_js_1.emailRegistro)({

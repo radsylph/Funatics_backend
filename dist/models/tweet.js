@@ -16,6 +16,7 @@ const tweetSchema = new mongoose_1.default.Schema({
     owner: {
         type: String,
         required: true,
+        ref: "Usuario",
     },
     likes: {
         type: Number,

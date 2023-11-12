@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 import { TweetInterface } from "./main";
 
 const tweetSchema = new mongoose.Schema<TweetInterface>(
@@ -14,6 +15,7 @@ const tweetSchema = new mongoose.Schema<TweetInterface>(
     owner: {
       type: String,
       required: true,
+      ref: "Usuario",
     },
     likes: {
       type: Number,
