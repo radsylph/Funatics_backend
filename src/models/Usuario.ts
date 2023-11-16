@@ -36,7 +36,7 @@ const usuarioSchema = new mongoose.Schema<UsuarioInterface>(
     },
     profilePicture: {
       type: String,
-      default: null,
+      default: "image.png",
     },
     followers: {
       type: Number,
