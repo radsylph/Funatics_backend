@@ -45,7 +45,7 @@ const usuarioSchema = new mongoose_1.default.Schema({
     },
     profilePicture: {
         type: String,
-        default: null,
+        default: "image.png",
     },
     followers: {
         type: Number,

@@ -186,6 +186,7 @@ class TweetManager {
                 return res.status(200).json({
                     message: "Tweets found",
                     tweets,
+                    OwnerInitial: req.user._id,
                 });
             }
             catch (error) {
@@ -233,6 +234,45 @@ class TweetManager {
             }
         });
     }
+    getTweet(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            if (!mongoose_1.default.Types.ObjectId.isValid(id)) {
+                return res.status(400).json({
+                    message: "Invalid tweet ID",
+                    status: 400,
+                });
+            }
+            try {
+                const tweet = yield main_1.Tweet.findOne({ _id: id }).populate("owner");
+                if (!tweet) {
+                    return res.status(404).json({
+                        message: "Tweet not found",
+                        status: 404,
+                    });
+                }
+                return res.status(200).json({
+                    message: "Tweet found",
+                    tweet,
+                });
+            }
+            catch (error) {
+                return res.status(500).json({
+                    message: "Tweet not found",
+                    errors: [
+                        {
+                            type: "server",
+                            value: "",
+                            msg: "there was an error when finding the tweet",
+                            errors: error,
+                            path: "",
+                            location: "",
+                        },
+                    ],
+                });
+            }
+        });
+    }
     likeTweet(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
@@ -254,8 +294,8 @@ class TweetManager {
                 if (like) {
                     yield main_1.Like.deleteOne({ owner: req.user._id, tweet: id });
                     yield main_1.Tweet.updateOne({ _id: id }, { $inc: { likes: -1 } });
-                    return res.status(200).json({
-                        message: "Tweet unliked",
+                    return res.status(201).json({
+                        message: "Post unliked",
                     });
                 }
                 const newLike = new main_1.Like({
@@ -265,7 +305,7 @@ class TweetManager {
                 yield newLike.save();
                 yield main_1.Tweet.updateOne({ _id: id }, { $inc: { likes: 1 } });
                 return res.status(200).json({
-                    message: "Tweet liked",
+                    message: "Post liked",
                 });
             }
             catch (error) {
@@ -276,6 +316,46 @@ class TweetManager {
                             type: "server",
                             value: "",
                             msg: "there was an error when liking the tweet",
+                            errors: error,
+                            path: "",
+                            location: "",
+                        },
+                    ],
+                });
+            }
+        });
+    }
+    getLikes(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            if (!mongoose_1.default.Types.ObjectId.isValid(id)) {
+                return res.status(400).json({
+                    message: "Invalid user ID",
+                    status: 400,
+                });
+            }
+            const tweet = yield main_1.Tweet.findOne({ _id: id });
+            if (!tweet) {
+                return res.status(404).json({
+                    message: "Tweet not found",
+                    status: 404,
+                });
+            }
+            try {
+                const likes = yield main_1.Like.find({ tweet: id }).populate("owner");
+                return res.status(200).json({
+                    message: "Likes found",
+                    likes,
+                });
+            }
+            catch (error) {
+                return res.status(500).json({
+                    message: "Likes not found",
+                    errors: [
+                        {
+                            type: "server",
+                            value: "",
+                            msg: "there was an error when finding the likes",
                             errors: error,
                             path: "",
                             location: "",

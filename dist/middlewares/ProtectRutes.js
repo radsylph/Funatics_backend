@@ -38,6 +38,7 @@ const getUserInfo = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         console.log(user);
         if (user) {
             req.user = user;
+            req.user_id = decoded.id;
         }
         else {
             return res.status(400).json({
