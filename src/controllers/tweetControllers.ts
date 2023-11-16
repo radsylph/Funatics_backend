@@ -37,6 +37,10 @@ const likeTweet = (req: CustomRequest, res: Response): void => {
   tweetManager.likeTweet(req, res);
 };
 
+const getLikes = (req: CustomRequest, res: Response): void => {
+  tweetManager.getLikes(req, res);
+};
+
 const followUser = (req: CustomRequest, res: Response): void => {
   tweetManager.followUser(req, res);
 };
@@ -90,4 +94,5 @@ export {
   getFollowersTweets,
   getMyTweets,
   getFollowingTweets,
+  getLikes,
 };
