@@ -290,8 +290,8 @@ class TweetManager {
       if (like) {
         await Like.deleteOne({ owner: req.user._id, tweet: id });
         await Tweet.updateOne({ _id: id }, { $inc: { likes: -1 } });
-        return res.status(200).json({
-          message: "Tweet unliked",
+        return res.status(201).json({
+          message: "Post unliked",
         });
       }
 
@@ -302,7 +302,7 @@ class TweetManager {
       await newLike.save();
       await Tweet.updateOne({ _id: id }, { $inc: { likes: 1 } });
       return res.status(200).json({
-        message: "Tweet liked",
+        message: "Post liked",
       });
     } catch (error) {
       return res.status(500).json({
