@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getLikes = exports.getFollowingTweets = exports.getMyTweets = exports.getFollowersTweets = exports.getUserTweets = exports.getComments = exports.addComment = exports.getMyFollowers = exports.getFollowers = exports.followUser = exports.likeTweet = exports.deleteTweet = exports.editTweet = exports.createTweet = exports.getTweet = exports.getTweets = exports.testAuth = void 0;
+exports.getPostLikes = exports.getLikes = exports.getFollowingTweets = exports.getMyTweets = exports.getFollowersTweets = exports.getUserTweets = exports.getComments = exports.addComment = exports.getMyFollowers = exports.getFollowers = exports.followUser = exports.likeTweet = exports.deleteTweet = exports.editTweet = exports.createTweet = exports.getTweet = exports.getTweets = exports.testAuth = void 0;
 const TweetManager_1 = require("../components/TweetManager");
 const tweetManager = new TweetManager_1.TweetManager();
 const testAuth = (req, res) => {
@@ -33,6 +33,10 @@ const likeTweet = (req, res) => {
     tweetManager.likeTweet(req, res);
 };
 exports.likeTweet = likeTweet;
+const getPostLikes = (req, res) => {
+    tweetManager.getPostLikes(req, res);
+};
+exports.getPostLikes = getPostLikes;
 const getLikes = (req, res) => {
     tweetManager.getLikes(req, res);
 };

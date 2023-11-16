@@ -325,7 +325,7 @@ class TweetManager {
             }
         });
     }
-    getLikes(req, res) {
+    getPostLikes(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             if (!mongoose_1.default.Types.ObjectId.isValid(id)) {
@@ -343,6 +343,46 @@ class TweetManager {
             }
             try {
                 const likes = yield main_1.Like.find({ tweet: id }).populate("owner");
+                return res.status(200).json({
+                    message: "Likes found",
+                    likes,
+                });
+            }
+            catch (error) {
+                return res.status(500).json({
+                    message: "Likes not found",
+                    errors: [
+                        {
+                            type: "server",
+                            value: "",
+                            msg: "there was an error when finding the likes",
+                            errors: error,
+                            path: "",
+                            location: "",
+                        },
+                    ],
+                });
+            }
+        });
+    }
+    getLikes(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // const { id } = req.params;
+            // if (!mongoose.Types.ObjectId.isValid(id)) {
+            //   return res.status(400).json({
+            //     message: "Invalid user ID",
+            //     status: 400,
+            //   });
+            // }
+            // const tweet = await Tweet.findOne({});
+            // if (!tweet) {
+            //   return res.status(404).json({
+            //     message: "Tweet not found",
+            //     status: 404,
+            //   });
+            // }
+            try {
+                const likes = yield main_1.Like.find({}).populate("owner");
                 return res.status(200).json({
                     message: "Likes found",
                     likes,

@@ -321,7 +321,7 @@ class TweetManager {
     }
   }
 
-  async getLikes(req: CustomRequest, res: Response) {
+  async getPostLikes(req: CustomRequest, res: Response) {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -340,6 +340,46 @@ class TweetManager {
     }
     try {
       const likes = await Like.find({ tweet: id }).populate("owner");
+      return res.status(200).json({
+        message: "Likes found",
+        likes,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "Likes not found",
+        errors: [
+          {
+            type: "server",
+            value: "",
+            msg: "there was an error when finding the likes",
+            errors: error,
+            path: "",
+            location: "",
+          },
+        ],
+      });
+    }
+  }
+
+  async getLikes(req: CustomRequest, res: Response) {
+    // const { id } = req.params;
+
+    // if (!mongoose.Types.ObjectId.isValid(id)) {
+    //   return res.status(400).json({
+    //     message: "Invalid user ID",
+    //     status: 400,
+    //   });
+    // }
+
+    // const tweet = await Tweet.findOne({});
+    // if (!tweet) {
+    //   return res.status(404).json({
+    //     message: "Tweet not found",
+    //     status: 404,
+    //   });
+    // }
+    try {
+      const likes = await Like.find({}).populate("owner");
       return res.status(200).json({
         message: "Likes found",
         likes,
