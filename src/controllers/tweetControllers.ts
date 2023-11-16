@@ -17,6 +17,10 @@ const getTweets = (req: CustomRequest, res: Response): void => {
   tweetManager.getTweets(req, res);
 };
 
+const getTweet = (req: CustomRequest, res: Response): void => {
+  tweetManager.getTweet(req, res);
+};
+
 const createTweet = (req: CustomRequest, res: Response): void => {
   tweetManager.createTweet(req, res);
 };
@@ -72,6 +76,7 @@ const getFollowingTweets = (req: CustomRequest, res: Response): void => {
 export {
   testAuth,
   getTweets,
+  getTweet,
   createTweet,
   editTweet,
   deleteTweet,
