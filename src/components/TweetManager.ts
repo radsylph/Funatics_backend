@@ -339,7 +339,7 @@ class TweetManager {
       });
     }
     try {
-      const likes = await Like.find({ tweet: id }).populate("owner");
+      const likes = await Like.find({ owner: id }).populate("tweet");
       return res.status(200).json({
         message: "Likes found",
         likes,
