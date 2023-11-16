@@ -227,6 +227,45 @@ class TweetManager {
     }
   }
 
+  async getTweet(req: CustomRequest, res: Response) {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        message: "Invalid tweet ID",
+        status: 400,
+      });
+    }
+
+    try {
+      const tweet = await Tweet.findOne({ _id: id }).populate("owner");
+      if (!tweet) {
+        return res.status(404).json({
+          message: "Tweet not found",
+          status: 404,
+        });
+      }
+      return res.status(200).json({
+        message: "Tweet found",
+        tweet,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "Tweet not found",
+        errors: [
+          {
+            type: "server",
+            value: "",
+            msg: "there was an error when finding the tweet",
+            errors: error,
+            path: "",
+            location: "",
+          },
+        ],
+      });
+    }
+  }
+
   async likeTweet(req: CustomRequest, res: Response) {
     const { id } = req.params;
 
