@@ -182,6 +182,7 @@ class TweetManager {
       return res.status(200).json({
         message: "Tweets found",
         tweets,
+        OwnerInitial: req.user._id,
       });
     } catch (error) {
       console.log(error);
@@ -249,7 +250,6 @@ class TweetManager {
       return res.status(200).json({
         message: "Tweet found",
         tweet,
-        owner_porsi: req.user_id,
       });
     } catch (error) {
       return res.status(500).json({
