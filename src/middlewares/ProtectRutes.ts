@@ -4,6 +4,7 @@ import Usuario from "../models/Usuario.js";
 
 interface CustomRequest extends Request {
   user?: any;
+  user_id?: any;
 }
 
 const getUserInfo = async (
@@ -35,6 +36,7 @@ const getUserInfo = async (
     console.log(user);
     if (user) {
       req.user = user;
+      req.user_id = decoded.id;
     } else {
       return res.status(400).json({
         message: "User not found",

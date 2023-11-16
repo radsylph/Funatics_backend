@@ -5,6 +5,7 @@ import { check, validationResult } from "express-validator";
 
 interface CustomRequest extends Request {
   user?: any;
+  user_id?: any;
 }
 
 class TweetManager {
@@ -248,7 +249,7 @@ class TweetManager {
       return res.status(200).json({
         message: "Tweet found",
         tweet,
-        owner: req.user._id,
+        owner_porsi: req.user_id,
       });
     } catch (error) {
       return res.status(500).json({
