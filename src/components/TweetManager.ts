@@ -248,6 +248,7 @@ class TweetManager {
       return res.status(200).json({
         message: "Tweet found",
         tweet,
+        owner: req.user._id,
       });
     } catch (error) {
       return res.status(500).json({
