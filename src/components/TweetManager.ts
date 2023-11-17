@@ -642,7 +642,7 @@ class TweetManager {
 
   async addComment(req: CustomRequest, res: Response) {
     const { id } = req.params;
-    const { content } = req.body;
+    const { title, content, image } = req.body;
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         message: "Invalid tweet ID",
@@ -659,10 +659,10 @@ class TweetManager {
 
     try {
       const newComment = new Tweet({
-        title: "",
+        title,
         content,
         owner: req.user._id,
-        image: "image.png",
+        image: image ? image : "image.png",
         edited: false,
         isComment: true,
         comments: 0,
