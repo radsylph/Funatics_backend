@@ -23,6 +23,7 @@ class TweetManager {
       .isLength({ max: 500 })
       .withMessage("the content must be less than 500 characters")
       .run(req);
+    await check("image").optional().run(req);
 
     const result = validationResult(req);
     if (!result.isEmpty()) {
@@ -31,7 +32,7 @@ class TweetManager {
         errors: result.array(),
       });
     }
-    const { title, content } = req.body;
+    const { title, content, image } = req.body;
     const { owner } = req.user._id;
 
     console.log(owner);
@@ -42,7 +43,7 @@ class TweetManager {
         title,
         content,
         owner: req.user._id,
-        image: "image.png",
+        image: image ? image : "image.png",
         edited: false,
         isComment: false,
         comments: 0,
@@ -72,7 +73,6 @@ class TweetManager {
   }
 
   async editTweet(req: CustomRequest, res: Response) {
-    //agregar validacion de que el tweet sea del usuario
     await check("title")
       .notEmpty()
       .withMessage("the title is obligatory")
@@ -181,11 +181,7 @@ class TweetManager {
       });
 
       const likes = await Like.find({ owner: req.user._id });
-
-      // Crear un conjunto de IDs de tweets que el usuario ha dado like
       const likedTweetIds = new Set(likes.map((like) => like.tweet.toString()));
-
-      // Agregar el campo isLiked a cada tweet
       const tweetsWithIsLiked = tweets.map((tweet) => {
         const isLiked = likedTweetIds.has(tweet._id.toString());
         return { ...tweet.toObject(), isLiked };
