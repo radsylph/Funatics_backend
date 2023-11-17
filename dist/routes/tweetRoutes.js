@@ -19,7 +19,10 @@ router.route("/like/:id").get(ProtectRutes_1.default, tweetControllers_1.getPost
 router.route("/follow/:id").put(ProtectRutes_1.default, tweetControllers_1.followUser);
 router.route("/followers/:id").get(ProtectRutes_1.default, tweetControllers_1.getFollowers);
 router.route("/myFollowers").get(ProtectRutes_1.default, tweetControllers_1.getMyFollowers);
-router.route("/comment/:id").post(ProtectRutes_1.default, tweetControllers_1.addComment);
+router
+    .route("/comment/:id")
+    .post(ProtectRutes_1.default, tweetControllers_1.addComment)
+    .delete(ProtectRutes_1.default, tweetControllers_1.deleteComment);
 router.route("/comments/:id").get(ProtectRutes_1.default, tweetControllers_1.getComments);
 router.route("/get/user/:id").get(ProtectRutes_1.default, tweetControllers_1.getUserTweets);
 router.route("/followersTweets").get(ProtectRutes_1.default, tweetControllers_1.getFollowersTweets);

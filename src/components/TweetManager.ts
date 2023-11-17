@@ -848,9 +848,16 @@ class TweetManager {
       const tweets = await Tweet.find({
         owner: Followers.map((follower) => follower._id),
       }).populate("owner");
+      const likes = await Like.find({ owner: req.user._id });
+      const likedTweetIds = new Set(likes.map((like) => like.tweet.toString()));
+      const tweetsWithIsLiked = tweets.map((tweet) => {
+        const isLiked = likedTweetIds.has(tweet._id.toString());
+        return { ...tweet.toObject(), isLiked };
+      });
+
       return res.status(200).json({
         message: "Followers tweets found",
-        tweets,
+        tweetsWithIsLiked,
       });
     } catch (error) {
       return res.status(500).json({
@@ -881,9 +888,16 @@ class TweetManager {
         owner: Following.map((follower) => follower._id),
         isComment: false,
       }).populate("owner");
+      const likes = await Like.find({ owner: req.user._id });
+      const likedTweetIds = new Set(likes.map((like) => like.tweet.toString()));
+      const tweetsWithIsLiked = tweets.map((tweet) => {
+        const isLiked = likedTweetIds.has(tweet._id.toString());
+        return { ...tweet.toObject(), isLiked };
+      });
+
       return res.status(200).json({
         message: "Following tweets found",
-        tweets,
+        tweetsWithIsLiked,
       });
     } catch (error) {
       return res.status(500).json({

@@ -154,10 +154,98 @@ class TweetManager {
                     status: 403,
                 });
             }
+            if (tweet.isComment === true) {
+                try {
+                    const TweetParent = yield main_1.Tweet.findOne({ _id: tweet.PostToComment });
+                    if (!TweetParent) {
+                        return res.status(404).json({
+                            message: "Tweet not found",
+                            status: 404,
+                        });
+                    }
+                    TweetParent.comments = TweetParent.comments - 1;
+                    yield TweetParent.save();
+                    yield main_1.Tweet.deleteOne({ _id: id });
+                    return res.status(200).json({
+                        message: "Comment deleted",
+                    });
+                }
+                catch (error) {
+                    return res.status(500).json({
+                        message: "Tweet not deleted",
+                        errors: [
+                            {
+                                type: "server",
+                                value: "",
+                                msg: "there was an error when deleting the tweet",
+                                errors: error,
+                                path: "",
+                                location: "deleteTweet",
+                            },
+                        ],
+                    });
+                }
+            }
+            else {
+                try {
+                    yield main_1.Tweet.deleteOne({ _id: id });
+                    return res.status(200).json({
+                        message: "Tweet deleted",
+                    });
+                }
+                catch (error) {
+                    return res.status(500).json({
+                        message: "Tweet not deleted",
+                        errors: [
+                            {
+                                type: "server",
+                                value: "",
+                                msg: "there was an error when deleting the tweet",
+                                errors: error,
+                                path: "",
+                                location: "deleteTweet",
+                            },
+                        ],
+                    });
+                }
+            }
+        });
+    }
+    deleteComment(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            const comment = yield main_1.Tweet.findOne({ _id: id });
+            if (!comment) {
+                return res.status(404).json({
+                    message: "Comment not found",
+                    status: 404,
+                });
+            }
+            if (comment.owner != req.user._id) {
+                return res.status(403).json({
+                    message: "you can't delete this comment",
+                    status: 403,
+                });
+            }
+            if (comment.isComment === false) {
+                return res.status(403).json({
+                    message: "this is not a comment",
+                    status: 403,
+                });
+            }
             try {
+                const TweetParent = yield main_1.Tweet.findOne({ _id: comment.PostToComment });
+                if (!TweetParent) {
+                    return res.status(404).json({
+                        message: "Tweet not found",
+                        status: 404,
+                    });
+                }
+                TweetParent.comments = TweetParent.comments - 1;
+                yield TweetParent.save();
                 yield main_1.Tweet.deleteOne({ _id: id });
                 return res.status(200).json({
-                    message: "Tweet deleted",
+                    message: "Comment deleted",
                 });
             }
             catch (error) {
@@ -759,9 +847,15 @@ class TweetManager {
                 const tweets = yield main_1.Tweet.find({
                     owner: Followers.map((follower) => follower._id),
                 }).populate("owner");
+                const likes = yield main_1.Like.find({ owner: req.user._id });
+                const likedTweetIds = new Set(likes.map((like) => like.tweet.toString()));
+                const tweetsWithIsLiked = tweets.map((tweet) => {
+                    const isLiked = likedTweetIds.has(tweet._id.toString());
+                    return Object.assign(Object.assign({}, tweet.toObject()), { isLiked });
+                });
                 return res.status(200).json({
                     message: "Followers tweets found",
-                    tweets,
+                    tweetsWithIsLiked,
                 });
             }
             catch (error) {
@@ -794,9 +888,15 @@ class TweetManager {
                     owner: Following.map((follower) => follower._id),
                     isComment: false,
                 }).populate("owner");
+                const likes = yield main_1.Like.find({ owner: req.user._id });
+                const likedTweetIds = new Set(likes.map((like) => like.tweet.toString()));
+                const tweetsWithIsLiked = tweets.map((tweet) => {
+                    const isLiked = likedTweetIds.has(tweet._id.toString());
+                    return Object.assign(Object.assign({}, tweet.toObject()), { isLiked });
+                });
                 return res.status(200).json({
                     message: "Following tweets found",
-                    tweets,
+                    tweetsWithIsLiked,
                 });
             }
             catch (error) {
