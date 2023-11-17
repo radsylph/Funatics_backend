@@ -266,7 +266,7 @@ class TweetManager {
                 tweetsWithIsLiked.isLiked = isLiked;
                 return res.status(200).json({
                     message: "Tweet found",
-                    tweetsWithIsLiked,
+                    tweet,
                 });
             }
             catch (error) {
