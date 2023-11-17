@@ -179,10 +179,23 @@ class TweetManager {
         path: "owner",
         select: "name lastname username profilePicture",
       });
+
+      const likes = await Like.find({ owner: req.user._id });
+
+      // Crear un conjunto de IDs de tweets que el usuario ha dado like
+      const likedTweetIds = new Set(likes.map((like) => like.tweet.toString()));
+
+      // Agregar el campo isLiked a cada tweet
+      const tweetsWithIsLiked = tweets.map((tweet) => {
+        const isLiked = likedTweetIds.has(tweet._id.toString());
+        return { ...tweet.toObject(), isLiked };
+      });
+
       return res.status(200).json({
         message: "Tweets found",
-        tweets,
+        tweets: tweetsWithIsLiked,
         OwnerInitial: req.user._id,
+        likes,
       });
     } catch (error) {
       console.log(error);
