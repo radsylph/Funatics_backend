@@ -259,9 +259,14 @@ class TweetManager {
                         status: 404,
                     });
                 }
+                const likes = yield main_1.Like.find({ owner: req.user._id });
+                const likedTweetIds = new Set(likes.map((like) => like.tweet.toString()));
+                const tweetsWithIsLiked = tweet.toObject();
+                const isLiked = likedTweetIds.has(tweet._id.toString());
+                tweetsWithIsLiked.isLiked = isLiked;
                 return res.status(200).json({
                     message: "Tweet found",
-                    tweet,
+                    tweetsWithIsLiked,
                 });
             }
             catch (error) {
@@ -452,6 +457,7 @@ class TweetManager {
                 });
                 yield newFollow.save();
                 yield main_1.Usuario.updateOne({ _id: id }, { $inc: { followers: 1 } });
+                yield main_1.Usuario.updateOne({ _id: req.user._id }, { $inc: { following: 1 } });
                 return res.status(200).json({
                     message: "User followed",
                 });

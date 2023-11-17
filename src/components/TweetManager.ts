@@ -257,9 +257,16 @@ class TweetManager {
           status: 404,
         });
       }
+
+      const likes = await Like.find({ owner: req.user._id });
+      const likedTweetIds = new Set(likes.map((like) => like.tweet.toString()));
+      const tweetsWithIsLiked = tweet.toObject();
+      const isLiked = likedTweetIds.has(tweet._id.toString());
+      tweetsWithIsLiked.isLiked = isLiked;
+
       return res.status(200).json({
         message: "Tweet found",
-        tweet,
+        tweetsWithIsLiked,
       });
     } catch (error) {
       return res.status(500).json({

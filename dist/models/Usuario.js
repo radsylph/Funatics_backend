@@ -51,6 +51,10 @@ const usuarioSchema = new mongoose_1.default.Schema({
         type: Number,
         default: 0,
     },
+    following: {
+        type: Number,
+        default: 0,
+    },
     token: {
         type: String,
         default: null,

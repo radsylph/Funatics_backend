@@ -8,4 +8,5 @@ export interface TweetInterface {
   edited: boolean;
   isComment: boolean;
   PostToComment: string;
+  isLiked: boolean;
 }
