@@ -152,25 +152,57 @@ class TweetManager {
       });
     }
 
-    try {
-      await Tweet.deleteOne({ _id: id });
-      return res.status(200).json({
-        message: "Tweet deleted",
-      });
-    } catch (error) {
-      return res.status(500).json({
-        message: "Tweet not deleted",
-        errors: [
-          {
-            type: "server",
-            value: "",
-            msg: "there was an error when deleting the tweet",
-            errors: error,
-            path: "",
-            location: "deleteTweet",
-          },
-        ],
-      });
+    if (tweet.isComment === true) {
+      try {
+        const TweetParent = await Tweet.findOne({ _id: tweet.PostToComment });
+        if (!TweetParent) {
+          return res.status(404).json({
+            message: "Tweet not found",
+            status: 404,
+          });
+        }
+        TweetParent.comments = TweetParent.comments - 1;
+        await TweetParent.save();
+        await Tweet.deleteOne({ _id: id });
+        return res.status(200).json({
+          message: "Comment deleted",
+        });
+      } catch (error) {
+        return res.status(500).json({
+          message: "Tweet not deleted",
+          errors: [
+            {
+              type: "server",
+              value: "",
+              msg: "there was an error when deleting the tweet",
+              errors: error,
+              path: "",
+              location: "deleteTweet",
+            },
+          ],
+        });
+      }
+    } else {
+      try {
+        await Tweet.deleteOne({ _id: id });
+        return res.status(200).json({
+          message: "Tweet deleted",
+        });
+      } catch (error) {
+        return res.status(500).json({
+          message: "Tweet not deleted",
+          errors: [
+            {
+              type: "server",
+              value: "",
+              msg: "there was an error when deleting the tweet",
+              errors: error,
+              path: "",
+              location: "deleteTweet",
+            },
+          ],
+        });
+      }
     }
   }
 
