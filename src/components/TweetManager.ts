@@ -615,9 +615,15 @@ class TweetManager {
       const comments = await Tweet.find({
         PostToComment: id,
       }).populate("owner");
+      const likes = await Like.find({ owner: req.user._id });
+      const likedTweetIds = new Set(likes.map((like) => like.tweet.toString()));
+      const commentsWithIsLiked = comments.map((comment) => {
+        const isLiked = likedTweetIds.has(comment._id.toString());
+        return { ...comment.toObject(), isLiked };
+      });
       return res.status(200).json({
         message: "Comments found",
-        comments,
+        commentsWithIsLiked,
       });
     } catch (error) {
       return res.status(500).json({

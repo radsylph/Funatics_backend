@@ -613,9 +613,15 @@ class TweetManager {
                 const comments = yield main_1.Tweet.find({
                     PostToComment: id,
                 }).populate("owner");
+                const likes = yield main_1.Like.find({ owner: req.user._id });
+                const likedTweetIds = new Set(likes.map((like) => like.tweet.toString()));
+                const commentsWithIsLiked = comments.map((comment) => {
+                    const isLiked = likedTweetIds.has(comment._id.toString());
+                    return Object.assign(Object.assign({}, comment.toObject()), { isLiked });
+                });
                 return res.status(200).json({
                     message: "Comments found",
-                    comments,
+                    commentsWithIsLiked,
                 });
             }
             catch (error) {
