@@ -61,6 +61,10 @@ const addComment = (req: CustomRequest, res: Response): void => {
   tweetManager.addComment(req, res);
 };
 
+const deleteComment = (req: CustomRequest, res: Response): void => {
+  tweetManager.deleteComment(req, res);
+};
+
 const getComments = (req: CustomRequest, res: Response): void => {
   tweetManager.getComments(req, res);
 };
@@ -100,4 +104,5 @@ export {
   getFollowingTweets,
   getLikes,
   getPostLikes,
+  deleteComment
 };

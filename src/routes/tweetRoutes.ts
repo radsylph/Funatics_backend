@@ -18,6 +18,7 @@ import {
   getMyFollowers,
   getLikes,
   getPostLikes,
+  deleteComment,
 } from "../controllers/tweetControllers";
 import getUserInfo from "../middlewares/ProtectRutes";
 
@@ -35,7 +36,10 @@ router.route("/like/:id").get(getUserInfo, getPostLikes);
 router.route("/follow/:id").put(getUserInfo, followUser);
 router.route("/followers/:id").get(getUserInfo, getFollowers);
 router.route("/myFollowers").get(getUserInfo, getMyFollowers);
-router.route("/comment/:id").post(getUserInfo, addComment);
+router
+  .route("/comment/:id")
+  .post(getUserInfo, addComment)
+  .delete(getUserInfo, deleteComment);
 router.route("/comments/:id").get(getUserInfo, getComments);
 router.route("/get/user/:id").get(getUserInfo, getUserTweets);
 router.route("/followersTweets").get(getUserInfo, getFollowersTweets);
