@@ -456,6 +456,10 @@ class TweetManager {
       });
       await newFollow.save();
       await Usuario.updateOne({ _id: id }, { $inc: { followers: 1 } });
+      await Usuario.updateOne(
+        { _id: req.user._id },
+        { $inc: { following: 1 } }
+      );
       return res.status(200).json({
         message: "User followed",
       });

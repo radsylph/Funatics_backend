@@ -42,6 +42,10 @@ const usuarioSchema = new mongoose.Schema<UsuarioInterface>(
       type: Number,
       default: 0,
     },
+    following: {
+      type: Number,
+      default: 0,
+    },
     token: {
       type: String,
       default: null,

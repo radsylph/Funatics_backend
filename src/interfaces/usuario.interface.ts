@@ -6,6 +6,7 @@ export interface UsuarioInterface {
   password: string;
   profilePicture: string | null;
   followers: number;
+  following: number;
   token: string | null;
   confirmado: boolean;
   timestamps: boolean;
