@@ -84,6 +84,7 @@ class TweetManager {
       .isLength({ max: 500 })
       .withMessage("the content must be less than 500 characters")
       .run(req);
+    await check("image").optional().run(req);
 
     const result = validationResult(req);
     if (!result.isEmpty()) {
@@ -92,7 +93,7 @@ class TweetManager {
         errors: result.array(),
       });
     }
-    const { title, content } = req.body;
+    const { title, content, image } = req.body;
     const { id } = req.params;
     const tweet = await Tweet.findOne({ _id: id });
     if (!tweet) {

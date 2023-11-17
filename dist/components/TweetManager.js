@@ -91,6 +91,7 @@ class TweetManager {
                 .isLength({ max: 500 })
                 .withMessage("the content must be less than 500 characters")
                 .run(req);
+            yield (0, express_validator_1.check)("image").optional().run(req);
             const result = (0, express_validator_1.validationResult)(req);
             if (!result.isEmpty()) {
                 return res.status(400).json({
@@ -98,7 +99,7 @@ class TweetManager {
                     errors: result.array(),
                 });
             }
-            const { title, content } = req.body;
+            const { title, content, image } = req.body;
             const { id } = req.params;
             const tweet = yield main_1.Tweet.findOne({ _id: id });
             if (!tweet) {
