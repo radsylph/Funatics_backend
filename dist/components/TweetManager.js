@@ -115,7 +115,7 @@ class TweetManager {
                 });
             }
             try {
-                const tweetEdited = yield main_1.Tweet.updateOne({ _id: id }, { title, content, edited: true });
+                const tweetEdited = yield main_1.Tweet.updateOne({ _id: id }, { title, content, image, edited: true });
                 return res.status(200).json({
                     message: "Tweet edited",
                     tweetEdited,

@@ -111,7 +111,7 @@ class TweetManager {
     try {
       const tweetEdited = await Tweet.updateOne(
         { _id: id },
-        { title, content, edited: true }
+        { title, content, image, edited: true }
       );
       return res.status(200).json({
         message: "Tweet edited",
