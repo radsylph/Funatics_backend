@@ -593,6 +593,68 @@ class SessionManager {
       });
     }
   }
+
+  async deleteUser(req: CustomRequest, res: Response): Promise<Response> {
+    try {
+      const user = await Usuario.findByIdAndDelete(req.user.id).exec();
+      const tweets = await Tweet.find({ owner: req.user.id }).exec();
+      const likes = await Like.find({ owner: req.user.id }).exec();
+      const follows = await Follow.find({
+        $or: [
+          { personToFollow: req.user.id },
+          { personThatFollows: req.user.id },
+        ],
+      }).exec();
+
+      if (!user) {
+        return res.status(404).json({
+          message: "User not found",
+          errors: [
+            {
+              type: "field",
+              value: req.user.id,
+              msg: "the user doesn't exist",
+              path: "id",
+              location: "params",
+            },
+          ],
+        });
+      }
+      await Tweet.deleteMany({ owner: req.user.id }).exec();
+      for (const like of likes) {
+        const tweetId = like.tweet;
+        await Tweet.findByIdAndUpdate(tweetId, { $inc: { likes: -1 } }).exec();
+        await Like.findByIdAndDelete(like.id).exec();
+      }
+      for (const follow of follows) {
+        const personToFollowId = follow.personToFollow;
+        await Usuario.findByIdAndUpdate(personToFollowId, {
+          $inc: { followers: -1 },
+        }).exec();
+        await Follow.findByIdAndDelete(follow.id).exec();
+      }
+      for (const tweet of tweets) {
+        await Tweet.findByIdAndDelete(tweet.id).exec();
+      }
+      return res.status(200).json({
+        message: "User deleted",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "there was these errors",
+        errors: [
+          {
+            type: "server",
+            value: "",
+            msg: "there was an error when deleting the user",
+            path: "",
+            location: "",
+          },
+        ],
+      });
+    }
+  }
 }
 
 export { SessionManager };

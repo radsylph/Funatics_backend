@@ -61,9 +61,9 @@ const editUser = (req: Request, res: Response): void => {
   session.editUser(req, res);
 };
 
-// const deleteUser = (req: Request, res: Response): void => {
-//   session.deleteUser(req, res);
-// };
+const deleteUser = (req: Request, res: Response): void => {
+  session.deleteUser(req, res);
+};
 
 const pugTest1 = (req: Request, res: Response): void => {
   res.render("auth/confirm_account", {
@@ -102,5 +102,5 @@ export {
   getUser,
   editUser,
   getAuser,
-  // deleteUser,
+  deleteUser,
 };

@@ -573,5 +573,68 @@ class SessionManager {
             }
         });
     }
+    deleteUser(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield main_1.Usuario.findByIdAndDelete(req.user.id).exec();
+                const tweets = yield main_1.Tweet.find({ owner: req.user.id }).exec();
+                const likes = yield main_1.Like.find({ owner: req.user.id }).exec();
+                const follows = yield main_1.Follow.find({
+                    $or: [
+                        { personToFollow: req.user.id },
+                        { personThatFollows: req.user.id },
+                    ],
+                }).exec();
+                if (!user) {
+                    return res.status(404).json({
+                        message: "User not found",
+                        errors: [
+                            {
+                                type: "field",
+                                value: req.user.id,
+                                msg: "the user doesn't exist",
+                                path: "id",
+                                location: "params",
+                            },
+                        ],
+                    });
+                }
+                yield main_1.Tweet.deleteMany({ owner: req.user.id }).exec();
+                for (const like of likes) {
+                    const tweetId = like.tweet;
+                    yield main_1.Tweet.findByIdAndUpdate(tweetId, { $inc: { likes: -1 } }).exec();
+                    yield main_1.Like.findByIdAndDelete(like.id).exec();
+                }
+                for (const follow of follows) {
+                    const personToFollowId = follow.personToFollow;
+                    yield main_1.Usuario.findByIdAndUpdate(personToFollowId, {
+                        $inc: { followers: -1 },
+                    }).exec();
+                    yield main_1.Follow.findByIdAndDelete(follow.id).exec();
+                }
+                for (const tweet of tweets) {
+                    yield main_1.Tweet.findByIdAndDelete(tweet.id).exec();
+                }
+                return res.status(200).json({
+                    message: "User deleted",
+                });
+            }
+            catch (error) {
+                console.log(error);
+                return res.status(500).json({
+                    message: "there was these errors",
+                    errors: [
+                        {
+                            type: "server",
+                            value: "",
+                            msg: "there was an error when deleting the user",
+                            path: "",
+                            location: "",
+                        },
+                    ],
+                });
+            }
+        });
+    }
 }
 exports.SessionManager = SessionManager;

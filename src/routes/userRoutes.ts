@@ -15,7 +15,7 @@ import {
   getUser,
   editUser,
   getAuser,
-  // deleteUser,
+  deleteUser,
 } from "../controllers/userControllers";
 import getUserInfo from "../middlewares/ProtectRutes";
 
@@ -31,7 +31,7 @@ router.route("/getUser").get(getUserInfo, getUser);
 router.route("/getUser/:id").get(getUserInfo, getAuser);
 
 router.route("/editUser").put(getUserInfo, editUser);
-// router.route("/deleteUser").delete(getUserInfo, deleteUser);
+router.route("/deleteUser").delete(getUserInfo, deleteUser);
 router.get("/pugtest1", pugTest1);
 router.get("/pugtest2", pugTest2);
 router.get("/pugtest3", pugTest3);
