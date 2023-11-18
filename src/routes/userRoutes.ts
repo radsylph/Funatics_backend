@@ -29,7 +29,6 @@ router.route("/reset_password").get(formReset).post(resetPassword);
 router.route("/reset_password/:token").get(verifyPassword).post(newPassword);
 router.route("/getUser").get(getUserInfo, getUser);
 router.route("/getUser/:id").get(getUserInfo, getAuser);
-
 router.route("/editUser").put(getUserInfo, editUser);
 router.route("/deleteUser").delete(getUserInfo, deleteUser);
 router.get("/pugtest1", pugTest1);

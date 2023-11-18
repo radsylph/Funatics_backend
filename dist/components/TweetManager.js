@@ -268,7 +268,9 @@ class TweetManager {
     getTweets(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const tweets = yield main_1.Tweet.find({ isComment: false }).populate({
+                const tweets = yield main_1.Tweet.find({ isComment: false })
+                    .sort({ createdAt: -1 }) // Sort by creation date in descending order
+                    .populate({
                     path: "owner",
                     select: "name lastname username profilePicture",
                 });

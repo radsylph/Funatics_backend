@@ -264,10 +264,12 @@ class TweetManager {
 
   async getTweets(req: CustomRequest, res: Response) {
     try {
-      const tweets = await Tweet.find({ isComment: false }).populate({
-        path: "owner",
-        select: "name lastname username profilePicture",
-      });
+      const tweets = await Tweet.find({ isComment: false })
+        .sort({ createdAt: -1 }) // Sort by creation date in descending order
+        .populate({
+          path: "owner",
+          select: "name lastname username profilePicture",
+        });
 
       const likes = await Like.find({ owner: req.user._id });
       const likedTweetIds = new Set(likes.map((like) => like.tweet.toString()));
