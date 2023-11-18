@@ -4,6 +4,7 @@ export interface UsuarioInterface {
   username: string;
   email: string;
   password: string;
+  bio: string;
   profilePicture: string | null;
   followers: number;
   following: number;

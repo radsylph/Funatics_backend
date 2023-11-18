@@ -30,6 +30,11 @@ const usuarioSchema = new mongoose.Schema<UsuarioInterface>(
         message: "Agrega un correo válido",
       },
     },
+    bio: {
+      type: String,
+      required: false,
+      default: "",
+    },
     password: {
       type: String,
       required: true,

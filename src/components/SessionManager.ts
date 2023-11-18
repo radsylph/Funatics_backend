@@ -24,6 +24,7 @@ class SessionManager {
       password,
       repeat_password,
       profilePicture,
+      bio,
     } = req.body;
     await check("name").notEmpty().withMessage("Name is required").run(req);
     await check("lastname")
@@ -53,6 +54,11 @@ class SessionManager {
       .withMessage("Password must be at least 6 characters long")
       .equals(password)
       .withMessage("the passwords doesn't match")
+      .run(req);
+    await check("bio")
+      .optional()
+      .isLength({ max: 100 })
+      .withMessage("the bio is too large")
       .run(req);
 
     let result = validationResult(req);
@@ -110,6 +116,7 @@ class SessionManager {
         token: generateToken1(),
         confirmado: false,
         profilePicture,
+        bio,
       });
 
       await usuario.save();
@@ -415,6 +422,47 @@ class SessionManager {
     try {
       const user = await Usuario.findById(req.user.id).exec();
       console.log(user);
+      return res.status(200).json({
+        message: "User found",
+        user: user,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "there was these errors",
+        errors: [
+          {
+            type: "server",
+            value: "",
+            msg: "there was an error when getting the user",
+            path: "",
+            location: "",
+          },
+        ],
+      });
+    }
+  }
+
+  async getAuser(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    try {
+      const user = await Usuario.findOne({ _id: id }).exec();
+      if (!user) {
+        return res.status(404).json({
+          message: "User not found",
+          errors: [
+            {
+              type: "field",
+              value: id,
+              msg: "the user doesn't exist",
+              path: "id",
+              location: "params",
+            },
+          ],
+        });
+      }
+
       return res.status(200).json({
         message: "User found",
         user: user,

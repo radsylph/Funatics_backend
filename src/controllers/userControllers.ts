@@ -53,6 +53,10 @@ const getUser = (req: Request, res: Response): void => {
   session.getUser(req, res);
 };
 
+const getAuser = (req: Request, res: Response): void => {
+  session.getAuser(req, res);
+};
+
 const editUser = (req: Request, res: Response): void => {
   session.editUser(req, res);
 };
@@ -97,5 +101,6 @@ export {
   pugTest3,
   getUser,
   editUser,
+  getAuser,
   // deleteUser,
 };
