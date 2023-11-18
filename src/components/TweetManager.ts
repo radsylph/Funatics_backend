@@ -540,9 +540,12 @@ class TweetManager {
           { _id: req.user._id },
           { $inc: { following: -1 } }
         );
+        const followWithIsFollowed = follow.toObject();
+        followWithIsFollowed.isFollowing = false;
 
-        return res.status(200).json({
+        return res.status(201).json({
           message: "User unfollowed",
+          followWithIsFollowed,
         });
       }
       const newFollow = new Follow({
@@ -555,8 +558,11 @@ class TweetManager {
         { _id: req.user._id },
         { $inc: { following: 1 } }
       );
+      const followWithIsFollowed = newFollow.toObject();
+      followWithIsFollowed.isFollowing = true;
       return res.status(200).json({
         message: "User followed",
+        followWithIsFollowed,
       });
     } catch (error) {
       return res.status(500).json({

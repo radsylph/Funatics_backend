@@ -535,8 +535,11 @@ class TweetManager {
                     });
                     yield main_1.Usuario.updateOne({ _id: id }, { $inc: { followers: -1 } });
                     yield main_1.Usuario.updateOne({ _id: req.user._id }, { $inc: { following: -1 } });
-                    return res.status(200).json({
+                    const followWithIsFollowed = follow.toObject();
+                    followWithIsFollowed.isFollowing = false;
+                    return res.status(201).json({
                         message: "User unfollowed",
+                        followWithIsFollowed,
                     });
                 }
                 const newFollow = new main_1.Follow({
@@ -546,8 +549,11 @@ class TweetManager {
                 yield newFollow.save();
                 yield main_1.Usuario.updateOne({ _id: id }, { $inc: { followers: 1 } });
                 yield main_1.Usuario.updateOne({ _id: req.user._id }, { $inc: { following: 1 } });
+                const followWithIsFollowed = newFollow.toObject();
+                followWithIsFollowed.isFollowing = true;
                 return res.status(200).json({
                     message: "User followed",
+                    followWithIsFollowed,
                 });
             }
             catch (error) {

@@ -1,5 +1,5 @@
 export interface FollowInterface {
-    personToFollow: string;
-    personThatFollows: string;
-  }
-  
+  personToFollow: string;
+  personThatFollows: string;
+  isFollowing: boolean;
+}

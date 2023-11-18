@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.editUser = exports.getUser = exports.pugTest3 = exports.pugTest2 = exports.pugTest1 = exports.login = exports.verifyPassword = exports.newPassword = exports.formReset = exports.resetPassword = exports.testingpug = exports.confirmAccount = exports.createForm = exports.createUser = void 0;
+exports.getAuser = exports.editUser = exports.getUser = exports.pugTest3 = exports.pugTest2 = exports.pugTest1 = exports.login = exports.verifyPassword = exports.newPassword = exports.formReset = exports.resetPassword = exports.testingpug = exports.confirmAccount = exports.createForm = exports.createUser = void 0;
 const SessionManager_1 = require("../components/SessionManager");
 const session = new SessionManager_1.SessionManager();
 const createUser = (req, res) => {
@@ -53,6 +53,10 @@ const getUser = (req, res) => {
     session.getUser(req, res);
 };
 exports.getUser = getUser;
+const getAuser = (req, res) => {
+    session.getAuser(req, res);
+};
+exports.getAuser = getAuser;
 const editUser = (req, res) => {
     session.editUser(req, res);
 };

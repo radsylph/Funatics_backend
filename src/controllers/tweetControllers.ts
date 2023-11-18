@@ -104,5 +104,5 @@ export {
   getFollowingTweets,
   getLikes,
   getPostLikes,
-  deleteComment
+  deleteComment,
 };

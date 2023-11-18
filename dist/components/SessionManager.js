@@ -22,7 +22,7 @@ class SessionManager {
     constructor() { }
     createUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { name, lastname, username, email, password, repeat_password, profilePicture, } = req.body;
+            const { name, lastname, username, email, password, repeat_password, profilePicture, bio, } = req.body;
             yield (0, express_validator_1.check)("name").notEmpty().withMessage("Name is required").run(req);
             yield (0, express_validator_1.check)("lastname")
                 .notEmpty()
@@ -51,6 +51,11 @@ class SessionManager {
                 .withMessage("Password must be at least 6 characters long")
                 .equals(password)
                 .withMessage("the passwords doesn't match")
+                .run(req);
+            yield (0, express_validator_1.check)("bio")
+                .optional()
+                .isLength({ max: 100 })
+                .withMessage("the bio is too large")
                 .run(req);
             let result = (0, express_validator_1.validationResult)(req);
             if (!result.isEmpty()) {
@@ -103,6 +108,7 @@ class SessionManager {
                     token: (0, generateToken_js_1.generateToken1)(),
                     confirmado: false,
                     profilePicture,
+                    bio,
                 });
                 yield usuario.save();
                 (0, mails_js_1.emailRegistro)({
@@ -393,6 +399,47 @@ class SessionManager {
             try {
                 const user = yield Usuario_js_1.default.findById(req.user.id).exec();
                 console.log(user);
+                return res.status(200).json({
+                    message: "User found",
+                    user: user,
+                });
+            }
+            catch (error) {
+                console.log(error);
+                return res.status(500).json({
+                    message: "there was these errors",
+                    errors: [
+                        {
+                            type: "server",
+                            value: "",
+                            msg: "there was an error when getting the user",
+                            path: "",
+                            location: "",
+                        },
+                    ],
+                });
+            }
+        });
+    }
+    getAuser(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            try {
+                const user = yield Usuario_js_1.default.findOne({ _id: id }).exec();
+                if (!user) {
+                    return res.status(404).json({
+                        message: "User not found",
+                        errors: [
+                            {
+                                type: "field",
+                                value: id,
+                                msg: "the user doesn't exist",
+                                path: "id",
+                                location: "params",
+                            },
+                        ],
+                    });
+                }
                 return res.status(200).json({
                     message: "User found",
                     user: user,
