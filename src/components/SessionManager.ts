@@ -477,7 +477,6 @@ class SessionManager {
           follow: followWithIsFollowed,
         });
       }
-
       return res.status(200).json({
         message: "User found",
         user: user,
@@ -512,6 +511,7 @@ class SessionManager {
       .notEmpty()
       .withMessage("Username is required")
       .run(req);
+    await check("profilePicture").optional().run(req);
     const result = validationResult(req);
     if (!result.isEmpty()) {
       return res.status(400).json({
@@ -519,7 +519,7 @@ class SessionManager {
         error: result.array(),
       });
     }
-    const { name, lastname, username } = req.body;
+    const { name, lastname, username, profilePicture } = req.body;
     try {
       const Username = await Usuario.findOne({
         username: username,
@@ -571,6 +571,7 @@ class SessionManager {
       user.name = name;
       user.lastname = lastname;
       user.username = username;
+      user.profilePicture = profilePicture;
       await user.save();
       return res.status(200).json({
         message: "User edited",
