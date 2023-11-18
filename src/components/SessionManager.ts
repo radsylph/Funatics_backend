@@ -193,35 +193,12 @@ class SessionManager {
     let result = validationResult(req);
     if (!result.isEmpty()) {
       return res.status(400).json({
-        message: "Error al crear el usuario",
+        message: "we have these errors when resetting the password",
         errors: result.array(),
       });
     }
 
-    // if (!result.isEmpty()) {
-    //   return res.render("auth/reset_password", {
-    //     pagina: "Reset Password",
-    //     errores: result.array(),
-    //     usuario: {
-    //       email: email,
-    //     },
-    //   });
-    // }
-
     const usuario = await Usuario.findOne({ email: email }).exec();
-    // if (!usuario) {
-    //   return res.render("auth/reset_password", {
-    //     pagina: "Reset Password",
-    //     serrores: [
-    //       {
-    //         msg: "The email is not registered",
-    //       },
-    //     ],
-    //     usuario: {
-    //       email: email,
-    //     },
-    //   });
-    // }
     if (!usuario) {
       return res.status(400).json({
         message: "there was these errors",
@@ -248,11 +225,6 @@ class SessionManager {
     return res.status(200).json({
       message: "we have send an mail to your email",
     });
-
-    // res.render("templates/mensajes", {
-    //   pagina: "Reset Password",
-    //   mensaje: "we have send a mail to your email",
-    // });
   }
 
   async checkResetPassword(req: Request, res: Response): Promise<void> {
