@@ -636,5 +636,31 @@ class SessionManager {
             }
         });
     }
+    getAllUsers(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const users = yield main_1.Usuario.find().exec();
+                return res.status(200).json({
+                    message: "Users found",
+                    users: users,
+                });
+            }
+            catch (error) {
+                console.log(error);
+                return res.status(500).json({
+                    message: "there was these errors",
+                    errors: [
+                        {
+                            type: "server",
+                            value: "",
+                            msg: "there was an error when getting the users",
+                            path: "",
+                            location: "",
+                        },
+                    ],
+                });
+            }
+        });
+    }
 }
 exports.SessionManager = SessionManager;

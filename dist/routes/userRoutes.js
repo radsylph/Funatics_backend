@@ -14,6 +14,7 @@ router.route("/testingpug").get(userControllers_1.testingpug);
 router.route("/reset_password").get(userControllers_1.formReset).post(userControllers_1.resetPassword);
 router.route("/reset_password/:token").get(userControllers_1.verifyPassword).post(userControllers_1.newPassword);
 router.route("/getUser").get(ProtectRutes_1.default, userControllers_1.getUser);
+router.route("/getAllUsers").get(ProtectRutes_1.default, userControllers_1.getAllUsers);
 router.route("/getUser/:id").get(ProtectRutes_1.default, userControllers_1.getAuser);
 router.route("/editUser").put(ProtectRutes_1.default, userControllers_1.editUser);
 router.route("/deleteUser").delete(ProtectRutes_1.default, userControllers_1.deleteUser);

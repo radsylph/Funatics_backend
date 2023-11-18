@@ -655,6 +655,30 @@ class SessionManager {
       });
     }
   }
+
+  async getAllUsers(req: CustomRequest, res: Response): Promise<Response> {
+    try {
+      const users = await Usuario.find().exec();
+      return res.status(200).json({
+        message: "Users found",
+        users: users,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "there was these errors",
+        errors: [
+          {
+            type: "server",
+            value: "",
+            msg: "there was an error when getting the users",
+            path: "",
+            location: "",
+          },
+        ],
+      });
+    }
+  }
 }
 
 export { SessionManager };

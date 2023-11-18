@@ -15,6 +15,7 @@ import {
   getUser,
   editUser,
   getAuser,
+  getAllUsers,
   deleteUser,
 } from "../controllers/userControllers";
 import getUserInfo from "../middlewares/ProtectRutes";
@@ -28,6 +29,7 @@ router.route("/testingpug").get(testingpug);
 router.route("/reset_password").get(formReset).post(resetPassword);
 router.route("/reset_password/:token").get(verifyPassword).post(newPassword);
 router.route("/getUser").get(getUserInfo, getUser);
+router.route("/getAllUsers").get(getUserInfo, getAllUsers);
 router.route("/getUser/:id").get(getUserInfo, getAuser);
 router.route("/editUser").put(getUserInfo, editUser);
 router.route("/deleteUser").delete(getUserInfo, deleteUser);
