@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SessionManager = void 0;
-const Usuario_js_1 = __importDefault(require("../models/Usuario.js"));
+const main_1 = require("../models/main");
 const generateToken_js_1 = require("../helpers/generateToken.js");
 const mails_js_1 = require("../helpers/mails.js");
 const express_validator_1 = require("express-validator");
@@ -67,8 +67,8 @@ class SessionManager {
             console.log(req.body);
             try {
                 console.log(req.body);
-                const ExisteUsuario = yield Usuario_js_1.default.findOne({ email: email }).exec();
-                const existeUsername = yield Usuario_js_1.default.findOne({
+                const ExisteUsuario = yield main_1.Usuario.findOne({ email: email }).exec();
+                const existeUsername = yield main_1.Usuario.findOne({
                     username: username,
                 }).exec();
                 if (existeUsername) {
@@ -99,7 +99,7 @@ class SessionManager {
                         ],
                     });
                 }
-                const usuario = new Usuario_js_1.default({
+                const usuario = new main_1.Usuario({
                     name,
                     lastname,
                     email,
@@ -149,7 +149,7 @@ class SessionManager {
     verifyUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { token } = req.params;
-            const usuario = yield Usuario_js_1.default.findOne({ token: token }).exec();
+            const usuario = yield main_1.Usuario.findOne({ token: token }).exec();
             console.log(token);
             if (!usuario) {
                 return res.render("auth/confirm_account", {
@@ -193,7 +193,7 @@ class SessionManager {
             //     },
             //   });
             // }
-            const usuario = yield Usuario_js_1.default.findOne({ email: email }).exec();
+            const usuario = yield main_1.Usuario.findOne({ email: email }).exec();
             // if (!usuario) {
             //   return res.render("auth/reset_password", {
             //     pagina: "Reset Password",
@@ -240,7 +240,7 @@ class SessionManager {
     checkResetPassword(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { token } = req.params;
-            const usuario = yield Usuario_js_1.default.findOne({ token: token }).exec();
+            const usuario = yield main_1.Usuario.findOne({ token: token }).exec();
             if (!usuario) {
                 return res.render("auth/reset_password", {
                     pagina: "Reset Password",
@@ -277,7 +277,7 @@ class SessionManager {
                     error: result.array(),
                 });
             }
-            const usuario = yield Usuario_js_1.default.findOne({ token: token }).exec();
+            const usuario = yield main_1.Usuario.findOne({ token: token }).exec();
             if (!usuario) {
                 return res.status(404).json({
                     message: "User not found",
@@ -333,7 +333,7 @@ class SessionManager {
                     error: result.array(),
                 });
             }
-            const usuario = yield Usuario_js_1.default.findOne({
+            const usuario = yield main_1.Usuario.findOne({
                 $or: [{ email: user_info }, { username: user_info }],
             }).exec();
             if (!usuario) {
@@ -397,7 +397,7 @@ class SessionManager {
     getUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const user = yield Usuario_js_1.default.findById(req.user.id).exec();
+                const user = yield main_1.Usuario.findById(req.user.id).exec();
                 console.log(user);
                 return res.status(200).json({
                     message: "User found",
@@ -425,7 +425,7 @@ class SessionManager {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             try {
-                const user = yield Usuario_js_1.default.findOne({ _id: id }).exec();
+                const user = yield main_1.Usuario.findOne({ _id: id }).exec();
                 if (!user) {
                     return res.status(404).json({
                         message: "User not found",
@@ -440,9 +440,25 @@ class SessionManager {
                         ],
                     });
                 }
+                const follow = yield main_1.Follow.findOne({
+                    personToFollow: id,
+                    personThatFollows: req.user.id,
+                }).exec();
+                if (follow) {
+                    const followWithIsFollowed = follow.toObject();
+                    followWithIsFollowed.isFollowing = true;
+                    return res.status(200).json({
+                        message: "User found",
+                        user: user,
+                        follow: followWithIsFollowed,
+                    });
+                }
                 return res.status(200).json({
                     message: "User found",
                     user: user,
+                    follow: {
+                        isFollowing: false,
+                    },
                 });
             }
             catch (error) {
@@ -482,10 +498,10 @@ class SessionManager {
             }
             const { name, lastname, username } = req.body;
             try {
-                const Username = yield Usuario_js_1.default.findOne({
+                const Username = yield main_1.Usuario.findOne({
                     username: username,
                 }).exec();
-                const myusername = yield Usuario_js_1.default.findById(req.user.id).exec();
+                const myusername = yield main_1.Usuario.findById(req.user.id).exec();
                 if (myusername === null) {
                     return res.status(400).json({
                         message: "there was these errors",
@@ -514,7 +530,7 @@ class SessionManager {
                         ],
                     });
                 }
-                const user = yield Usuario_js_1.default.findById(req.user.id).exec();
+                const user = yield main_1.Usuario.findById(req.user.id).exec();
                 if (user === null) {
                     return res.status(400).json({
                         message: "there was these errors",
